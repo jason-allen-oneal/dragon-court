@@ -1,0 +1,148 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+model Item {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(255)
+  attack     Int          @default(0)
+  defend     Int          @default(0)
+  skill      Int          @default(0)
+  location   String       @default("") @db.VarChar(255)
+  traits     String       @default("") @db.VarChar(255)
+  equippable Boolean      @default(false)
+  type       Int
+  cost       Int          @default(0)
+  PlayerItem PlayerItem[]
+}
+
+model Player {
+  id               Int          @id @default(autoincrement())
+  owner            Int          @unique(map: "owner_2")
+  className        String       @db.VarChar(255)
+  background       String       @db.Text
+  region           String       @db.VarChar(255)
+  clanId           Int          @default(0)
+  guts             Int          @default(0)
+  maxGuts          Int          @default(0)
+  wits             Int          @default(0)
+  maxWits          Int          @default(0)
+  charm            Int          @default(0)
+  maxCharm         Int          @default(0)
+  attack           Int          @default(0)
+  defend           Int          @default(0)
+  skill            Int          @default(0)
+  skillFighter     Int          @default(0)
+  skillFighterMax  Int          @default(0)
+  skillMagic       Int          @default(0)
+  skillMagicMax    Int          @default(0)
+  skillTrader      Int          @default(0)
+  skillTraderMax   Int          @default(0)
+  level            Int          @default(0)
+  experience       Int          @default(0)
+  quests           Int          @default(0)
+  maxQuests        Int          @default(0)
+  cash             Int          @default(1)
+  rank             Int          @default(0)
+  storage          Int          @default(0)
+  maxStorage       Int          @default(0)
+  fame             Int          @default(0)
+  favor            Int          @default(0)
+  actions          Int          @default(0)
+  foundForest      Boolean      @default(false)
+  effects          String       @default("") @db.VarChar(255)
+  abilities        String       @default("") @db.VarChar(255)
+  nextExpThreshold Int          @default(0)
+  location         String       @default("none") @db.VarChar(20)
+  firstPlay        Boolean      @default(true)
+  PlayerItem       PlayerItem[]
+
+  @@index([owner], map: "owner")
+}
+
+model PlayerItem {
+  id         Int    @id @default(autoincrement())
+  itemId     Int
+  playerId   Int
+  qty        Int
+  equipped   Int
+  identified Int
+  traits     String @db.VarChar(255)
+  guts       Int
+  wits       Int
+  charm      Int
+  attack     Int
+  defend     Int
+  skill      Int
+  enchants   Int
+  stored     Int
+  Player     Player @relation(fields: [playerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "PlayerItem_ibfk_1")
+  Item       Item   @relation(fields: [itemId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "PlayerItem_ibfk_2")
+
+  @@index([itemId], map: "itemId")
+  @@index([playerId], map: "player")
+}
+
+model Region {
+  id    Int    @id @default(autoincrement())
+  name  String @db.VarChar(255)
+  short String @db.VarChar(255)
+  lvl   Int
+  decay Int
+}
+
+model User {
+  id       Int     @unique(map: "id") @default(autoincrement())
+  name     String  @db.VarChar(255)
+  email    String  @db.VarChar(255)
+  password String  @db.VarChar(255)
+  chat     Int     @default(0)
+  firstRun Boolean @default(true)
+
+  @@index([email], map: "email")
+  @@index([name], map: "name")
+}
+
+model Abilities {
+  id          Int     @unique(map: "id_2") @default(autoincrement())
+  name        String? @db.VarChar(10)
+  description String? @db.VarChar(143)
+  guild       Int?
+
+  @@index([id], map: "id")
+}
+
+model Monster {
+  id         Int    @id @default(autoincrement())
+  name       String @db.VarChar(255)
+  region     String @db.VarChar(255)
+  guts       Int
+  wits       Int
+  charm      Int
+  attack     Int
+  defend     Int
+  skill      Int
+  pack       String @db.Text
+  gear       String @db.Text
+  temp       String @db.Text
+  opts       String @db.Text
+  text       String @db.Text
+  temperment String @db.VarChar(255)
+}
+
+model Clan {
+  id        Int    @id @unique(map: "id") @default(autoincrement())
+  name      String @db.VarChar(255)
+  creator   String @db.VarChar(255)
+  time      Int
+  abilities String @db.VarChar(255)
+  power     Int
+
+  @@index([name], map: "name")
+}
