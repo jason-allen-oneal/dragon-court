@@ -1,0 +1,1 @@
+import { dirname } from "path";nimport { fileURLToPath } from "url";nimport { FlatCompat } from "@eslint/eslintrc";nnconst __filename = fileURLToPath(import.meta.url);nconst __dirname = dirname(__filename);nnconst compat = new FlatCompat({n  baseDirectory: __dirname,n});nnconst eslintConfig = [n  ...compat.extends("next/core-web-vitals"),n];nnexport default eslintConfig;

@@ -1,0 +1,1 @@
+"use client";nimport { SessionProvider } from 'next-auth/react';nnexport default function Providers({ children }: { children: React.ReactNode }) {n  return (n    <SessionProvider>n        {children}n    </SessionProvider>n  );n}

@@ -1,0 +1,1 @@
+/// <reference types="next" />n/// <reference types="next/image-types/global" />nn// NOTE: This file should not be editedn// see https://nextjs.org/docs/basic-features/typescript for more information.

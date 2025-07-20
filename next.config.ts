@@ -1,0 +1,1 @@
+import type { NextConfig } from "next";nnconst nextConfig: NextConfig = {n  /* config options here */n};nnexport default nextConfig;

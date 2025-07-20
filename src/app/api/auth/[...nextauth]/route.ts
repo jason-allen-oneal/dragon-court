@@ -1,0 +1,1 @@
+import NextAuth from "next-auth";nimport { authOptions } from "@/lib/auth";nnconst handler = NextAuth(authOptions);nnexport { handler as GET, handler as POST };
